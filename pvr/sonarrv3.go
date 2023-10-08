@@ -232,6 +232,14 @@ func (p *SonarrV3) GetWantedMissing() ([]MediaItem, error) {
 		// process response
 		lastPageSize = len(m.Records)
 		for _, episode := range m.Records {
+
+			// dont search this item its more than 31 days past release date
+			if !episode.AirDateUtc.IsZero() {
+				maxDateToTry := episode.AirDateUtc.Add((24 * time.Hour) * 31)
+				if time.Now().UTC().After(maxDateToTry) {
+					continue
+				}
+			}
 			// store this episode
 			airDate := episode.AirDateUtc
 			wantedMissing = append(wantedMissing, MediaItem{

@@ -49,6 +49,8 @@ func Get(pvrName string, pvrType string, pvrConfig *config.Pvr) (Interface, erro
 		return NewRadarrV2(pvrName, pvrConfig), nil
 	case "radarr_v3":
 		return NewRadarrV3(pvrName, pvrConfig), nil
+	case "radarr_v4":
+		return NewRadarrV4(pvrName, pvrConfig), nil
 	default:
 		break
 	}
